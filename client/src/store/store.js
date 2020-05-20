@@ -1,23 +1,8 @@
-import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
-import { persistStore, persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
+import { configureStore } from '@reduxjs/toolkit';
 import chatReducer from './slice';
 
-const persistConfig = {
-  key: 'root',
-  whitelist: ['authReducer'],
-  storage,
-};
-
-const persistedReducer = persistReducer(persistConfig, chatReducer);
-
 const store = configureStore({
-  reducer: persistedReducer,
-  middleware: getDefaultMiddleware({
-    serializableCheck: false,
-  }),
+  reducer: chatReducer,
 });
 
-let persistor = persistStore(store);
-
-export { store, persistor };
+export default store;
