@@ -12,28 +12,41 @@ app.use(cors());
 app.use(express.json());
 
 const uri = process.env.ATLAS_URI;
-mongoose.connect(uri, {
-  useNewUrlParser: true,
-  useCreateIndex: true,
-  useUnifiedTopology: true,
-});
+// mongoose.connect(uri, {
+//   useNewUrlParser: true,
+//   useCreateIndex: true,
+//   useUnifiedTopology: true,
+// });
 
-const connection = mongoose.connection;
-connection.once('open', () => {
-  console.log('MongoDB database connection established successfully');
-});
+const connect = mongoose
+  .connect(uri, {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log('MongoDB Connected...'))
+  .catch((err) => console.log(err));
 
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 
 io.on('connection', (socket) => {
-  socket.on('Input Chat Message', (msg) => {
+  console.log('connected to socket');
+  // socket.on('message', ({ name, message }) => {
+  //   io.emit('message', { name, message });
+  //   connect.then((db) => {
+  //     console.log('Connected correctly to the database');
+  //   });
+  // });
+  socket.on('message', ({ name, message }) => {
+    io.emit('message', { name, message });
+    // save to database
     connect.then((db) => {
       try {
         const chat = new Chat({
-          message: msg.chatMessage,
-          sender: msg.userId,
-          type: msg.type,
+          message: message.chatMessage,
+          sender: message.userId,
+          type: message.type,
         });
         chat.save((err, doc) => {
           console.log(doc);
@@ -42,7 +55,7 @@ io.on('connection', (socket) => {
           Chat.find({ _id: doc._id })
             .populate('sender')
             .exec((err, doc) => {
-              return io.emit('Output Chat Message', doc);
+              return io.emit('message', doc);
             });
         });
       } catch (error) {
@@ -59,6 +72,6 @@ const chat = require('./routes/chat');
 app.use('/users', users);
 app.use('/chat', chat);
 
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`Server is running on port: ${port}`);
 });

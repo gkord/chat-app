@@ -5,7 +5,6 @@ export const chatSlice = createSlice({
   initialState: {
     token: null,
     user: {},
-    socket: null,
     message: '',
     threads: [],
     currentThread: '',
@@ -13,20 +12,10 @@ export const chatSlice = createSlice({
   reducers: {
     auth: (state, action) => {},
     chat: (state, action) => {},
-    setSocket: (state, action) => {
-      state.socket = action.payload;
-    },
   },
 });
 
-export const { auth, chat, setSocket } = chatSlice.actions;
-
-export const setupSocket = (dispatch) => {
-  const socket = new WebSocket('ws://localhost:8080');
-  socket.onopen = () => {
-    dispatch(setSocket(socket));
-  };
-};
+export const { auth, chat } = chatSlice.actions;
 
 // The function below is called a thunk and allows us to perform async logic. It
 // can be dispatched like a regular action: `dispatch(incrementAsync(10))`. This
