@@ -17,7 +17,7 @@ const JWT_SECRET = process.env.JWT_SECRET;
 router.get('/', async (req, res) => {
   try {
     const users = await User.find();
-    if (!users) throw Error('No users exist');
+    if (!users) return res.status(400).json({ msg: 'No users exist' });
     res.json(users);
   } catch (e) {
     res.status(400).json({ msg: e.message });
@@ -44,23 +44,23 @@ router.post('/register', async (req, res) => {
 
   try {
     const existingUser = await User.findOne({ email });
-    if (existingUser) throw Error('User already exists');
+    if (existingUser)
+      return res.status(400).json({ msg: 'User already exists' });
 
     const salt = await bcrypt.genSalt(10);
-    if (!salt) throw Error('Something went wrong with bcrypt');
-
     const hashPassword = await bcrypt.hash(password, salt);
-    if (!hashPassword) throw Error('Something went wrong hashing the password');
 
     const newUser = new User({
       name,
       email,
-      password,
+      password: hashPassword,
     });
 
     const savedUser = await newUser.save();
-    res.send(savedUser);
-    if (!savedUser) throw Error('Something went wrong saving the user');
+    if (!savedUser)
+      return res
+        .status(400)
+        .json({ msg: 'Something went wrong saving the user' });
 
     const token = jwt.sign({ id: savedUser._id }, JWT_SECRET, {
       expiresIn: 3600,
@@ -75,7 +75,7 @@ router.post('/register', async (req, res) => {
       },
     });
   } catch (e) {
-    res.status(400).json({ error: e.message });
+    res.status(400).json({ msg: e.message });
   }
 });
 
@@ -100,13 +100,13 @@ router.post('/login', async (req, res) => {
   try {
     // Check for existing user
     const user = await User.findOne({ email });
-    if (!user) throw Error('User does not exist');
+    if (!user) return res.status(400).json({ msg: 'User does not exist' });
 
     const isValidPassword = await bcrypt.compare(password, user.password);
-    if (!isValidPassword) throw Error('Invalid credentials');
+    if (!isValidPassword)
+      return res.status(400).json({ msg: 'Invalid credentials' });
 
     const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: 3600 });
-    if (!token) throw Error('Couldnt sign the token');
 
     res.status(200).json({
       token,
@@ -130,7 +130,7 @@ router.post('/login', async (req, res) => {
 router.get('/user', auth, async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select('-password');
-    if (!user) throw Error('User Does not exist');
+    if (!user) return res.status(400).json({ msg: 'User does not exist' });
     res.json(user);
   } catch (e) {
     res.status(400).json({ msg: e.message });
