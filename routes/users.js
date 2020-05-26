@@ -57,12 +57,21 @@ router.post('/register', async (req, res) => {
     });
 
     const savedUser = await newUser.save();
+
+    const payload = {
+      user: {
+        id: savedUser.id,
+        name: savedUser.name,
+        email: savedUser.email,
+      },
+    };
+
     if (!savedUser)
       return res
         .status(400)
         .json({ msg: 'Something went wrong saving the user' });
 
-    const token = jwt.sign({ id: savedUser._id }, JWT_SECRET, {
+    const token = jwt.sign(payload, JWT_SECRET, {
       expiresIn: 3600,
     });
 
@@ -106,7 +115,15 @@ router.post('/login', async (req, res) => {
     if (!isValidPassword)
       return res.status(400).json({ msg: 'Invalid credentials' });
 
-    const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: 3600 });
+    const payload = {
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+      },
+    };
+
+    const token = jwt.sign(payload, JWT_SECRET, { expiresIn: 3600 });
 
     res.status(200).json({
       token,

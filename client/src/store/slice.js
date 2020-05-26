@@ -78,38 +78,38 @@ export const authSlice = createSlice({
   },
   extraReducers: {
     [registerUser.pending]: (state, action) => {
-      if (state.loading === 'idle') {
-        state.loading = 'pending';
+      if (state.isLoading === 'idle') {
+        state.isLoading = 'pending';
       }
     },
     [loginUser.pending]: (state, action) => {
-      if (state.loading === 'idle') {
-        state.loading = 'pending';
+      if (state.isLoading === 'idle') {
+        state.isLoading = 'pending';
       }
     },
     [registerUser.fulfilled]: (state, action) => {
-      if (state.loading === 'pending') {
-        state.loading = 'idle';
+      if (state.isLoading === 'pending') {
+        state.isLoading = 'idle';
         state.isAuthenticated = true;
         state.user = action.payload;
       }
     },
     [registerUser.rejected]: (state, action) => {
-      if (state.loading === 'pending') {
-        state.loading = 'idle';
+      if (state.isLoading === 'pending') {
+        state.isLoading = 'idle';
         state.errors = action.payload;
       }
     },
     [loginUser.fulfilled]: (state, action) => {
-      if (state.loading === 'pending') {
-        state.loading = 'idle';
+      if (state.isLoading === 'pending') {
+        state.isLoading = 'idle';
         state.isAuthenticated = true;
         state.user = action.payload;
       }
     },
     [loginUser.rejected]: (state, action) => {
-      if (state.loading === 'pending') {
-        state.loading = 'idle';
+      if (state.isLoading === 'pending') {
+        state.isLoading = 'idle';
         state.errors = action.payload;
       }
     },
@@ -140,10 +140,10 @@ export const loadUser = () => async (dispatch) => {
   }
 };
 
-// The function below is called a selector and allows us to select a value from
-// the state. Selectors can also be defined inline where they're used instead of
-// in the slice file. For example: `useSelector((state) => state.counter.value)`
-// export const selectCount = (state) => state.counter.value;
+// Selectors
+export const selectUser = (state) => state.auth.user.name;
+export const selectError = (state) => state.auth.errors.msg;
+export const selectAuthenticated = (state) => state.auth.isAuthenticated;
 
 const chatReducer = combineReducers({
   auth: authSlice.reducer,

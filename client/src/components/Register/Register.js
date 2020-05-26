@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { registerUser } from '../../store/slice';
 
-const Signup = () => {
+const Register = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -51,4 +51,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default Register;

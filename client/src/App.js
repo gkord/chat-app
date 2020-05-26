@@ -1,17 +1,25 @@
-import React from 'react';
-import Signup from './components/Signup';
-// import { BrowserRouter as Router, Route } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import NavBar from './components/NavBar';
+import Register from './components/Register';
+import Login from './components/Login';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import './App.css';
+import checkAuth from './utils/checkAuth';
+import store from './store/store';
 
 const App = () => {
+  useEffect(() => {
+    checkAuth(store);
+  }, []);
+
   return (
     <div>
-      <Signup />
-      {/* <Router>
-        <Route path='/' component={Login} />
+      <NavBar />
+      <Router>
+        <Route path='/register' component={Register} />
+        <Route path='/login' component={Login} />
         <Route />
-        <Route />
-      </Router> */}
+      </Router>
     </div>
   );
 };
