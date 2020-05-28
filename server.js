@@ -48,32 +48,6 @@ io.on('connection', (socket) => {
   });
 });
 
-// socket.on('chat message', (message) => {
-//   io.emit('message', { message });
-//   // save to database
-//   connect.then((db) => {
-//     try {
-//       const chat = new Chat({
-//         message: message.chatMessage,
-//         sender: message.userId,
-//       });
-//       chat.save((err, doc) => {
-//         console.log(doc);
-//         if (err) return res.json({ success: false, err });
-
-//         Chat.find({ _id: doc._id })
-//           .populate('sender')
-//           .exec((err, doc) => {
-//             return io.emit('message', doc);
-//           });
-//       });
-//     } catch (error) {
-//       console.error(error);
-//     }
-//   });
-// });
-// });
-
 //routes
 const users = require('./routes/users');
 const chat = require('./routes/chat');

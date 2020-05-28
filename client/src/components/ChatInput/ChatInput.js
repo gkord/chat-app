@@ -35,7 +35,6 @@ const ChatInput = () => {
   };
 
   useEffect(() => {
-    console.log(chatData);
     fetchChats();
     socket.on('Received Message', (dbPayload) => {
       console.log(dbPayload);
@@ -58,7 +57,7 @@ const ChatInput = () => {
       <div>
         {chatData.map((chat, i) => (
           <h3 key={i}>
-            {username}: {chat.message}
+            {chat.sender.name}: {chat.message}
           </h3>
         ))}
       </div>
