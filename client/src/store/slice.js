@@ -6,6 +6,7 @@ import {
   createAsyncThunk,
 } from '@reduxjs/toolkit';
 import authAPI from '../api/authAPI';
+// import fetch from '../api/chatAPI';
 import { setAuthToken } from '../utils/setAuthToken';
 
 // Thunks
@@ -32,7 +33,7 @@ export const loginUser = createAsyncThunk(
   'login',
   async (data, { rejectWithValue }) => {
     try {
-      const res = await await authAPI.login(data);
+      const res = await authAPI.login(data);
 
       const { token } = res;
       // Set token to local storage
@@ -47,6 +48,29 @@ export const loginUser = createAsyncThunk(
     }
   }
 );
+
+// export const fetchChats = createAsyncThunk(
+//   'fetch',
+//   async (dispatch, { rejectWithValue }) => {
+//     try {
+//       const res = await fetch();
+//       dispatch(getChats(res));
+//     } catch (err) {
+//       return rejectWithValue(err.data);
+//     }
+//   }
+// );
+
+export const fetchChats = () => async (dispatch) => {
+  try {
+    const { data } = await axios.get('http://localhost:5000/chat/chats');
+    dispatch(setFetching(true));
+    console.log(data);
+    dispatch(getChats(data));
+  } catch (e) {
+    return console.log(e);
+  }
+};
 
 // Slices
 export const authSlice = createSlice({
@@ -116,6 +140,25 @@ export const authSlice = createSlice({
   },
 });
 
+export const chatSlice = createSlice({
+  name: 'chat',
+  initialState: {
+    chats: [],
+    isFetching: false,
+  },
+  reducers: {
+    getChats: (state, action) => {
+      state.chats = action.payload;
+    },
+    addChats: (state, action) => {
+      state.chats = state.chats.concat(action.payload);
+    },
+    setFetching: (state, action) => {
+      state.isFetching = action.payload;
+    },
+  },
+});
+
 export const {
   setCurrentUser,
   logoutUser,
@@ -123,30 +166,18 @@ export const {
   setMessage,
 } = authSlice.actions;
 
-// export const { chat } = chatSlice.actions;
-
-export const loadUser = () => async (dispatch) => {
-  if (localStorage.token) {
-    setAuthToken(localStorage.token);
-  }
-  try {
-    const result = await axios.get('/api/user');
-
-    // load user into state
-    dispatch(setCurrentUser(result.data));
-  } catch (error) {
-    // removes user object from state
-    // dispatch({ type: AUTH_ERROR });
-  }
-};
+export const { getChats, addChats, setFetching } = chatSlice.actions;
 
 // Selectors
-export const selectUser = (state) => state.auth.user.name;
+export const selectUsername = (state) => state.auth.user.name;
+export const selectUserId = (state) => state.auth.user.id;
 export const selectError = (state) => state.auth.errors.msg;
 export const selectAuthenticated = (state) => state.auth.isAuthenticated;
+export const selectChat = (state) => state.chat.chats;
 
 const chatReducer = combineReducers({
   auth: authSlice.reducer,
+  chat: chatSlice.reducer,
 });
 
 export default chatReducer;

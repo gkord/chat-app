@@ -12,7 +12,7 @@ const Login = ({ history }) => {
 
   useEffect(() => {
     //if user already authenticated send to homepage
-    if (isAuthenticated) history.push('/');
+    if (isAuthenticated) history.push('/messenger');
   });
 
   const handleSubmit = (e) => {
@@ -24,6 +24,8 @@ const Login = ({ history }) => {
     };
 
     dispatch(loginUser(data));
+    setEmail('');
+    setPassword('');
   };
 
   return (

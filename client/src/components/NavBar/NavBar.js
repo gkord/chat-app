@@ -1,23 +1,30 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { logoutUser, selectAuthenticated, selectUser } from '../../store/slice';
+import {
+  logoutUser,
+  selectAuthenticated,
+  selectUsername,
+} from '../../store/slice';
+import './NavBar.css';
 
 const NavBar = () => {
   const dispatch = useDispatch();
-  console.log('hello');
-  const user = useSelector(selectUser);
+
+  // State
+  const username = useSelector(selectUsername);
   const isAuthenticated = useSelector(selectAuthenticated);
 
+  //Handlers
   const handleLogout = () => {
     dispatch(logoutUser());
-    window.location = '/login';
+    window.location.href = '/login';
   };
 
   return (
     <nav>
       {isAuthenticated && (
         <>
-          <div>Welcome {user}</div>
+          <div>Welcome {username}</div>
           <button onClick={handleLogout}>Log Out</button>
         </>
       )}

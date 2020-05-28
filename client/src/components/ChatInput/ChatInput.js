@@ -1,37 +1,75 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import io from 'socket.io-client';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  selectUsername,
+  selectUserId,
+  selectChat,
+  getChats,
+  addChats,
+  setFetching,
+} from '../../store/slice';
 
 const socket = io.connect('http://localhost:5000');
 
 const ChatInput = () => {
   const [message, setMessage] = useState('');
-  const [chat, setChat] = useState([]);
+  const dispatch = useDispatch();
 
-  // useEffect(() => {});
+  // State
+  const username = useSelector(selectUsername);
+  const userId = useSelector(selectUserId);
+  const chatData = useSelector(selectChat);
+
+  const fetchChats = async () => {
+    try {
+      dispatch(setFetching(true));
+      const { data } = await axios.get('http://localhost:5000/chat/chats');
+      console.log(data);
+      dispatch(getChats(data));
+      dispatch(setFetching(false));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    console.log(chatData);
+    fetchChats();
+    socket.on('Received Message', (dbPayload) => {
+      console.log(dbPayload);
+      dispatch(addChats(dbPayload));
+    });
+  }, []);
 
   const handleMessageSubmit = (e) => {
     e.preventDefault();
-    socket.emit('message', { message });
-    setChat([...chat, { message }]);
+    socket.emit('Sent Message', {
+      userId,
+      username,
+      message,
+    });
     setMessage('');
   };
 
   const renderChat = () => {
-    return chat.map(({ message }, index) => {
-      return (
-        <div key={index}>
-          <h3>
-            <span>{message}</span>
+    return (
+      <div>
+        {chatData.map((chat, i) => (
+          <h3 key={i}>
+            {username}: {chat.message}
           </h3>
-        </div>
-      );
-    });
+        ))}
+      </div>
+    );
   };
   return (
     <div className='card'>
       <form onSubmit={handleMessageSubmit}>
         <h2>Messenger</h2>
         <div>
+          <p>{username}</p>
           <input
             type='text'
             name='message'
@@ -40,7 +78,7 @@ const ChatInput = () => {
             label='Message'
           />
         </div>
-        <button>Send Message</button>
+        <button disabled={!message}>Send Message</button>
       </form>
       <div className='render-chat'>
         <h2>Chat Log</h2>

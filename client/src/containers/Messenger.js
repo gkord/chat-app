@@ -1,7 +1,12 @@
 import React from 'react';
+import ChatInput from '../components/ChatInput';
 
 const Messenger = () => {
-  return <div>This is Messenger</div>;
+  return (
+    <div>
+      <ChatInput />
+    </div>
+  );
 };
 
 export default Messenger;

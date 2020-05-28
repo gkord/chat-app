@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import NavBar from './components/NavBar';
 import Register from './components/Register';
 import Login from './components/Login';
+import Messenger from './containers/Messenger';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import './App.css';
 import checkAuth from './utils/checkAuth';
@@ -14,11 +15,11 @@ const App = () => {
 
   return (
     <div>
-      <NavBar />
       <Router>
+        <NavBar />
         <Route path='/register' component={Register} />
         <Route path='/login' component={Login} />
-        <Route />
+        <Route path='/messenger' component={Messenger} />
       </Router>
     </div>
   );
