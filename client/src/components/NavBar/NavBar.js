@@ -1,11 +1,18 @@
 import React from 'react';
+import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   logoutUser,
   selectAuthenticated,
   selectUsername,
 } from '../../store/slice';
-import './NavBar.css';
+import Button from '../elements/Button';
+
+const StyledNav = styled.nav`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+`;
 
 const NavBar = () => {
   const dispatch = useDispatch();
@@ -21,14 +28,14 @@ const NavBar = () => {
   };
 
   return (
-    <nav>
+    <>
       {isAuthenticated && (
-        <>
+        <StyledNav>
           <div>Welcome {username}</div>
-          <button onClick={handleLogout}>Log Out</button>
-        </>
+          <Button onClick={handleLogout}>Log Out</Button>
+        </StyledNav>
       )}
-    </nav>
+    </>
   );
 };
 

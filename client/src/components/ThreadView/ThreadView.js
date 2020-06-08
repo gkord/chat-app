@@ -1,18 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
+
+const RenderChat = styled.div`
+  max-width: 80%;
+  display: flex;
+  flex-direction: column;
+  border-radius: 5px;
+  padding: 20px;
+  box-shadow: 0px 3px 24px -8px rgba(0, 0, 0, 0.75);
+`;
 
 const ThreadView = ({ chatData }) => {
   return (
-    <div className='render-chat'>
-      <h2>Chat Log</h2>
-      <div>
-        {chatData.map((chat, i) => (
-          <h3 key={i}>
-            {chat.sender.name}: {chat.message}
-          </h3>
-        ))}
-      </div>
-    </div>
+    <RenderChat>
+      {chatData.map((chat, i) => (
+        <p key={i}>
+          {chat.sender.name}: {chat.message}
+        </p>
+      ))}
+    </RenderChat>
   );
 };
 

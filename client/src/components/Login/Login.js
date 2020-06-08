@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUser, selectError, selectAuthenticated } from '../../store/slice';
+import Button from '../elements/Button';
 
 const Login = ({ history }) => {
   const [email, setEmail] = useState('');
@@ -45,7 +46,7 @@ const Login = ({ history }) => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button type='submit'>Log In</button>
+        <Button type='submit'>Log In</Button>
       </form>
       <pre>{error}</pre>
     </div>
