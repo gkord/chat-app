@@ -17,18 +17,16 @@ const App = () => {
   }, []);
 
   return (
-    <div>
-      <Router>
-        <GlobalStyles />
-        <Container>
-          <NavBar />
-          <Route exact path='/' component={LandingPage} />
-          <Route path='/register' component={Register} />
-          <Route path='/login' component={Login} />
-          <AuthRoute path='/messenger' component={Messenger} />
-        </Container>
-      </Router>
-    </div>
+    <Router>
+      <GlobalStyles />
+      <Container>
+        <NavBar />
+        <Route exact path='/' component={LandingPage} />
+        <Route path='/register' component={Register} />
+        <Route path='/login' component={Login} />
+        <AuthRoute path='/messenger' component={Messenger} />
+      </Container>
+    </Router>
   );
 };
 

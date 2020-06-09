@@ -9,9 +9,21 @@ import {
 import Button from '../elements/Button';
 
 const StyledNav = styled.nav`
+  min-height: 64px;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 0px 20px;
+`;
+
+const RightContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const StyledWelcome = styled.div`
+  margin-right: 8px;
 `;
 
 const NavBar = () => {
@@ -28,14 +40,17 @@ const NavBar = () => {
   };
 
   return (
-    <>
+    <StyledNav>
+      <h1>chatrbox</h1>
       {isAuthenticated && (
-        <StyledNav>
-          <div>Welcome {username}</div>
+        <RightContainer>
+          <StyledWelcome>
+            <p>Welcome {username}</p>
+          </StyledWelcome>
           <Button onClick={handleLogout}>Log Out</Button>
-        </StyledNav>
+        </RightContainer>
       )}
-    </>
+    </StyledNav>
   );
 };
 
