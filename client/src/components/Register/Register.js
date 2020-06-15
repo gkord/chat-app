@@ -58,7 +58,9 @@ const Register = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <Button type='submit'>Submit</Button>
+        <Button type='submit' disabled={!name || !email || !password}>
+          Submit
+        </Button>
       </StyledForm>
       <p>
         Alreay have an account? <Link to='/login'>Click here to login</Link>

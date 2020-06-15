@@ -9,7 +9,7 @@ import {
 import Button from '../elements/Button';
 
 const StyledNav = styled.nav`
-  min-height: 64px;
+  height: 64px;
   display: flex;
   align-items: center;
   justify-content: space-between;

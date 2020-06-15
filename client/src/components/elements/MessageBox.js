@@ -5,8 +5,9 @@ import styled from 'styled-components';
 const StyledMessageBox = styled.div`
   background-color: #f0f0f0;
   margin-bottom: 8px;
-  width: 25%;
+  width: 30%;
   padding: 12px;
+  display: flex;
 `;
 
 const StyledName = styled.p`
@@ -18,11 +19,28 @@ const StyledMessage = styled.p`
   margin-left: 8px;
 `;
 
+const StyledAvatar = styled.div`
+  background: #fff;
+  color: black;
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 8px;
+`;
+
 const MessageBox = ({ name, message }) => {
   return (
     <StyledMessageBox>
-      <StyledName>{name}</StyledName>
-      <StyledMessage>{message}</StyledMessage>
+      <StyledAvatar>
+        <h3>{name.charAt(0)}</h3>
+      </StyledAvatar>
+      <div>
+        <StyledName>{name}</StyledName>
+        <StyledMessage>{message}</StyledMessage>
+      </div>
     </StyledMessageBox>
   );
 };

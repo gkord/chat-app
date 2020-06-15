@@ -19,8 +19,8 @@ const App = () => {
   return (
     <Router>
       <GlobalStyles />
+      <NavBar />
       <Container>
-        <NavBar />
         <Route exact path='/' component={LandingPage} />
         <Route path='/register' component={Register} />
         <Route path='/login' component={Login} />

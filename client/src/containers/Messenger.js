@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import styled from 'styled-components';
 import axios from 'axios';
 import io from 'socket.io-client';
 import { useSelector, useDispatch } from 'react-redux';
@@ -12,6 +13,11 @@ import {
 } from '../store/slice';
 import ChatInput from '../components/ChatInput';
 import ThreadView from '../components/ThreadView';
+
+const MessengerContainer = styled.div`
+  width: 100%;
+  height: 100%;
+`;
 
 const socket = io.connect('http://localhost:5000');
 
@@ -42,10 +48,10 @@ const Messenger = () => {
   }, [dispatch]);
 
   return (
-    <div>
+    <MessengerContainer>
       <ThreadView chatData={chatData} />
       <ChatInput username={username} userId={userId} />
-    </div>
+    </MessengerContainer>
   );
 };
 

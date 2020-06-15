@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import MessageBox from '../elements/MessageBox';
 
 const RenderChat = styled.div`
+  height: 511px;
+  overflow-y: auto;
   width: 100%;
   display: flex;
   flex-direction: column;
