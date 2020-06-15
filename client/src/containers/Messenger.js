@@ -49,7 +49,7 @@ const Messenger = () => {
 
   return (
     <MessengerContainer>
-      <ThreadView chatData={chatData} />
+      <ThreadView chatData={chatData} currentUser={username} />
       <ChatInput username={username} userId={userId} />
     </MessengerContainer>
   );

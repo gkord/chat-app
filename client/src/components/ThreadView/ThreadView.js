@@ -14,11 +14,16 @@ const RenderChat = styled.div`
   padding-top: 8px;
 `;
 
-const ThreadView = ({ chatData }) => {
+const ThreadView = ({ chatData, currentUser }) => {
   return (
     <RenderChat>
       {chatData.map((chat, i) => (
-        <MessageBox key={i} name={chat.sender.name} message={chat.message} />
+        <MessageBox
+          key={i}
+          name={chat.sender.name}
+          message={chat.message}
+          currentUser={currentUser}
+        />
       ))}
     </RenderChat>
   );
@@ -26,6 +31,7 @@ const ThreadView = ({ chatData }) => {
 
 ThreadView.propTypes = {
   chatData: PropTypes.arrayOf(PropTypes.shape),
+  currentUser: PropTypes.string,
 };
 
 export default ThreadView;

@@ -12,16 +12,17 @@ const StyledMessageBox = styled.div`
 
 const StyledName = styled.p`
   margin-bottom: 6px;
-  color: ${(props) => (props.isLoggedIn ? 'blue' : 'red')};
+  color: ${({ name, currentUser }) => (name === currentUser ? 'blue' : 'red')};
 `;
 
 const StyledMessage = styled.p`
   margin-left: 8px;
 `;
 
-const StyledAvatar = styled.div`
-  background: #fff;
-  color: black;
+const StyledPlaceholder = styled.div`
+  background-color: ${({ name, currentUser }) =>
+    name === currentUser ? 'blue' : 'red'};
+  color: #fff;
   height: 40px;
   width: 40px;
   border-radius: 50%;
@@ -31,14 +32,16 @@ const StyledAvatar = styled.div`
   margin-right: 8px;
 `;
 
-const MessageBox = ({ name, message }) => {
+const MessageBox = ({ name, message, currentUser }) => {
   return (
     <StyledMessageBox>
-      <StyledAvatar>
+      <StyledPlaceholder name={name} currentUser={currentUser}>
         <h3>{name.charAt(0)}</h3>
-      </StyledAvatar>
+      </StyledPlaceholder>
       <div>
-        <StyledName>{name}</StyledName>
+        <StyledName name={name} currentUser={currentUser}>
+          {name}
+        </StyledName>
         <StyledMessage>{message}</StyledMessage>
       </div>
     </StyledMessageBox>
@@ -48,6 +51,7 @@ const MessageBox = ({ name, message }) => {
 MessageBox.propTypes = {
   name: PropTypes.string,
   messge: PropTypes.string,
+  currentUser: PropTypes.string,
 };
 
 export default MessageBox;
