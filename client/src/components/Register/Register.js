@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { registerUser } from '../../store/slice';
+import { useDispatch, useSelector } from 'react-redux';
+import { registerUser, selectError, clearErrors } from '../../store/slice';
 import Button from '../elements/Button';
+import ErrorMessage from '../elements/ErrorMessage';
 import { StyledForm, StyledInput } from '../Login/Login';
 
 const RegisterContainer = styled.div`
@@ -20,6 +21,8 @@ const Register = () => {
   const [password, setPassword] = useState('');
 
   const dispatch = useDispatch();
+
+  const error = useSelector(selectError);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -58,12 +61,16 @@ const Register = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
+        {error && <ErrorMessage>{error}</ErrorMessage>}
         <Button type='submit' disabled={!name || !email || !password}>
           Submit
         </Button>
       </StyledForm>
       <p>
-        Alreay have an account? <Link to='/login'>Click here to login</Link>
+        Alreay have an account?{' '}
+        <Link to='/login' onClick={() => dispatch(clearErrors())}>
+          Click here to login
+        </Link>
       </p>
     </RegisterContainer>
   );

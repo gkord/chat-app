@@ -2,8 +2,14 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { loginUser, selectError, selectAuthenticated } from '../../store/slice';
+import {
+  loginUser,
+  clearErrors,
+  selectError,
+  selectAuthenticated,
+} from '../../store/slice';
 import Button from '../elements/Button';
+import ErrorMessage from '../elements/ErrorMessage';
 
 const LoginContainer = styled.div`
   height: calc(100% - 64px);
@@ -75,13 +81,16 @@ const Login = ({ history }) => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
+        {error && <ErrorMessage>{error}</ErrorMessage>}
         <Button type='submit' disabled={!email || !password}>
           Log In
         </Button>
-        <pre>{error}</pre>
       </StyledForm>
       <p>
-        Don't have an account? <Link to='/register'>Click here to sign up</Link>
+        Don't have an account?{' '}
+        <Link to='/register' onClick={() => dispatch(clearErrors())}>
+          Click here to sign up
+        </Link>
       </p>
     </LoginContainer>
   );

@@ -23,6 +23,10 @@ h2 {
 p {
   font-size: 14px;
 }
+
+a {
+  text-decoration: none;
+}
 `;
 
 export default GlobalStyles;

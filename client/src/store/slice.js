@@ -99,6 +99,12 @@ export const authSlice = createSlice({
       state.user = {};
       state.errors = {};
     },
+    clearErrors: (state) => {
+      // Clear errors if there are some in the state
+      if (Object.keys(state.errors).length > 0) {
+        state.errors = {};
+      }
+    },
   },
   extraReducers: {
     [registerUser.pending]: (state, action) => {
@@ -163,7 +169,7 @@ export const {
   setCurrentUser,
   logoutUser,
   authFailed,
-  setMessage,
+  clearErrors,
 } = authSlice.actions;
 
 export const { getChats, addChats, setFetching } = chatSlice.actions;

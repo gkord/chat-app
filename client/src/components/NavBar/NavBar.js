@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   logoutUser,
@@ -7,6 +8,10 @@ import {
   selectUsername,
 } from '../../store/slice';
 import Button from '../elements/Button';
+
+const StyledTitle = styled(Link)`
+  color: black;
+`;
 
 const StyledNav = styled.nav`
   height: 64px;
@@ -41,7 +46,9 @@ const NavBar = () => {
 
   return (
     <StyledNav>
-      <h1>chatrbox</h1>
+      <h1>
+        <StyledTitle to='/'>chatrbox</StyledTitle>
+      </h1>
       {isAuthenticated && (
         <RightContainer>
           <StyledWelcome>
