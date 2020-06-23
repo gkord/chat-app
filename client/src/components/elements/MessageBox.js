@@ -34,7 +34,7 @@ const StyledPlaceholder = styled.div`
 
 const MessageBox = ({ name, message, currentUser }) => {
   return (
-    <StyledMessageBox>
+    <StyledMessageBox name={name} currentUser={currentUser}>
       <StyledPlaceholder name={name} currentUser={currentUser}>
         <h3>{name.charAt(0)}</h3>
       </StyledPlaceholder>
