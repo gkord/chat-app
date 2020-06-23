@@ -12,7 +12,8 @@ const path = require('path');
 app.use(cors());
 app.use(express.json());
 
-const uri = process.env.ATLAS_URI;
+const uri =
+  'mongodb+srv://dbUser:dBUserPassword@cluster0-xhyv2.gcp.mongodb.net/test?retryWrites=true&w=majority';
 const connect = mongoose
   .connect(uri, {
     useNewUrlParser: true,
