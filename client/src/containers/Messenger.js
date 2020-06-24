@@ -42,7 +42,6 @@ const Messenger = () => {
     };
     fetchChats();
     socket.on('Received Message', (dbPayload) => {
-      console.log(dbPayload);
       dispatch(addChats(dbPayload));
     });
   }, [dispatch]);
