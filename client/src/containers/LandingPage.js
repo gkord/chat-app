@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import Button from '../components/elements/Button';
 
 const LandingContainer = styled.div`
-  height: calc(100% - 64px);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -18,17 +17,17 @@ const ButtonContainer = styled.div`
 `;
 
 const StyledTitle = styled.h2`
+  font-size: 42px;
   margin-bottom: 12px;
   position: relative;
   &::after {
     background-color: rgba(40, 167, 69, 0.8);
-    bottom: -10px;
     content: '';
     display: block;
     height: 8px;
     position: absolute;
     width: 100%;
-    top: 15px;
+    top: 29px;
     z-index: -1;
   }
 `;

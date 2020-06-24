@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import MessageBox from '../elements/MessageBox';
@@ -15,6 +15,12 @@ const RenderChat = styled.div`
 `;
 
 const ThreadView = ({ chatData, currentUser }) => {
+  const messagesEndRef = useRef(null);
+
+  useEffect(() => {
+    messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+  });
+
   return (
     <RenderChat>
       {chatData.map((chat, i) => (
@@ -25,6 +31,7 @@ const ThreadView = ({ chatData, currentUser }) => {
           currentUser={currentUser}
         />
       ))}
+      <div ref={messagesEndRef} />
     </RenderChat>
   );
 };

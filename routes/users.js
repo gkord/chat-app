@@ -35,7 +35,7 @@ router.post('/register', async (req, res) => {
 
   //Register validation
   const { error } = registerValidation(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
+  if (error) return res.status(400).json({ msg: error.details[0].message });
 
   // Field validation
   if (!name || !email || !password) {
@@ -98,8 +98,8 @@ router.post('/login', async (req, res) => {
   const { email, password } = req.body;
 
   //Login validation
-  const { error } = loginValidation(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
+  // const { error } = loginValidation(req.body);
+  // if (error) return res.status(400).json({ msg: error.details[0].message });
 
   // Field validation
   if (!email || !password) {
